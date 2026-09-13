@@ -21,10 +21,6 @@ jobs:
           with: 
             node-version: 20.10.0
             cache: 'npm'
-        - name: "Install Dependencies"
-          run: npm i
-        - name: "Build"
-          run: npm run build --if-present 
         - name: Install Vercel CLI
           run: npm install --global vercel@latest
         - name: Pull Vercel Environment Information
