@@ -8,4 +8,4 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = "https://irctc-ticket-plan.build-ai-verse.com";
 
 // Paste the token from Google Search Console (HTML tag method) when available.
-export const GOOGLE_SITE_VERIFICATION = "";
+export const GOOGLE_SITE_VERIFICATION = "google467dd1b12cc12599.html";
