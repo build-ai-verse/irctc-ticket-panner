@@ -409,6 +409,13 @@
   .hero {
     position: relative;
     isolation: isolate;
+    /* `isolation` traps the date picker's z-index inside this stacking context,
+       and a stacking context with `z-index: auto` paints below later siblings —
+       so the part of the popover that hangs past the hero was rendering *under*
+       the next section's heading, which also stole the taps. Lifting the hero
+       itself is what actually puts the popover above that content. Stays well
+       under the sticky header (60). */
+    z-index: 1;
     margin-top: -66px; /* slide under the transparent header */
     padding-block: calc(66px + clamp(1.75rem, 5vw, 3.25rem)) clamp(1.75rem, 4vw, 2.75rem);
     color: var(--ink);
