@@ -411,9 +411,15 @@
     isolation: isolate;
     margin-top: -66px; /* slide under the transparent header */
     padding-block: calc(66px + clamp(1.75rem, 5vw, 3.25rem)) clamp(1.75rem, 4vw, 2.75rem);
-    overflow: hidden;
     color: var(--ink);
     background: #060a16;
+    /* Clip sideways only. The scene is wider than the viewport and would
+       otherwise widen the document, but `overflow: hidden` here would also clip
+       downward — and on a phone the date picker's popover extends past the
+       hero's bottom edge, so hiding would cut off the last week of the calendar
+       and its footer with no way to scroll them back. `clip` is the one value
+       that can be set per-axis without forcing the other axis to scroll. */
+    overflow-x: clip;
   }
 
   .scene {

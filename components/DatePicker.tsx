@@ -97,6 +97,7 @@ export default function DatePicker({
 
   const rootRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const shouldFocusDay = useRef(false);
   const dialogId = useId();
@@ -111,13 +112,36 @@ export default function DatePicker({
   }, [open, selected, today, min, max]);
 
   // Move DOM focus onto the cursor day after the grid renders.
+  // `preventScroll` because focusing a day mid-calendar would scroll that day
+  // into view and leave the rest of the month below the fold; the effect below
+  // owns scrolling and brings the *whole* popover in instead.
   useEffect(() => {
     if (!open || !shouldFocusDay.current) return;
     shouldFocusDay.current = false;
     gridRef.current
       ?.querySelector<HTMLButtonElement>('button[tabindex="0"]')
-      ?.focus();
+      ?.focus({ preventScroll: true });
   }, [open, cursor, viewMonth]);
+
+  // On a phone the panel sits low in the hero, so the calendar opens partly
+  // below the fold and looks cut off. Scroll just enough to show all of it.
+  useEffect(() => {
+    if (!open) return;
+    const pop = popRef.current;
+    if (!pop) return;
+
+    const GAP = 12;
+    const { bottom } = pop.getBoundingClientRect();
+    const overshoot = bottom + GAP - window.innerHeight;
+    if (overshoot <= 0) return;
+
+    window.scrollBy({
+      top: overshoot,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  }, [open]);
 
   const close = useCallback(
     (returnFocus = true) => {
@@ -297,6 +321,7 @@ export default function DatePicker({
       {open && (
         <div
           className="dp-pop"
+          ref={popRef}
           id={dialogId}
           role="dialog"
           aria-modal="false"
