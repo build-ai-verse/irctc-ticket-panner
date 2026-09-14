@@ -12,3 +12,9 @@ export const SITE_URL = "https://irctc-ticket-plan.build-ai-verse.com";
 // meta tag is emitted; set it only if you switch to the "HTML tag" method,
 // in which case paste the opaque content value, not a filename.
 export const GOOGLE_SITE_VERIFICATION = "";
+
+// Public contact + social. Empty-safe: when a value is "", the corresponding
+// link/section and structured-data field simply do not render.
+export const CONTACT_EMAIL = "blaze.avinash@gmail.com";
+export const INSTAGRAM_HANDLE = "@buildaiverse";
+export const INSTAGRAM_URL = "https://instagram.com/buildaiverse";

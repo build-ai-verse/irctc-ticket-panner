@@ -4,6 +4,7 @@ import { SITE_URL } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
+    "/about",
     "/guides/when-can-i-book-train-ticket",
     "/guides/irctc-60-day-rule",
     "/guides/tatkal-timing",

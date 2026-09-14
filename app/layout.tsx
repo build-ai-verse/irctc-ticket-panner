@@ -3,12 +3,16 @@ import { Sora, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import ISTClock from "@/components/ISTClock";
 import Enhancements from "@/components/Enhancements";
+import ContactEmail from "@/components/ContactEmail";
 import {
   SITE_NAME,
   SITE_TITLE,
   SITE_DESCRIPTION,
   SITE_URL,
   GOOGLE_SITE_VERIFICATION,
+  CONTACT_EMAIL,
+  INSTAGRAM_URL,
+  INSTAGRAM_HANDLE,
 } from "@/lib/site";
 import "./globals.css";
 
@@ -66,12 +70,25 @@ const structuredData = {
   operatingSystem: "Web",
   description: SITE_DESCRIPTION,
   offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+  ...(INSTAGRAM_URL ? { sameAs: [INSTAGRAM_URL] } : {}),
+  ...(CONTACT_EMAIL
+    ? {
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            contactType: "customer support",
+            email: CONTACT_EMAIL,
+          },
+        ],
+      }
+    : {}),
 };
 
 const NAV = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#faq", label: "FAQ" },
   { href: "/guides/when-can-i-book-train-ticket", label: "Guides" },
+  { href: "/about", label: "About" },
 ];
 
 function BrandMark() {
@@ -161,6 +178,30 @@ export default function RootLayout({
                   <li>
                     <a href="/guides/tatkal-timing">Tatkal timings explained</a>
                   </li>
+                </ul>
+              </div>
+              <div>
+                <p className="footer-title">Project</p>
+                <ul className="footer-links">
+                  <li>
+                    <a href="/about">About</a>
+                  </li>
+                  {CONTACT_EMAIL && (
+                    <li>
+                      <ContactEmail>Email us</ContactEmail>
+                    </li>
+                  )}
+                  {INSTAGRAM_URL && (
+                    <li>
+                      <a
+                        href={INSTAGRAM_URL}
+                        target="_blank"
+                        rel="me noopener noreferrer"
+                      >
+                        Instagram ({INSTAGRAM_HANDLE})
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
