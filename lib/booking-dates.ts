@@ -81,6 +81,17 @@ export function bookingOpenDate(journey: Date): Date {
   return addDays(journey, -ARP_DAYS);
 }
 
+/**
+ * The latest journey date bookable right now, in IST.
+ * Once it is 8:00 AM IST or later, today's batch has opened → today + 60 days.
+ * Before 8:00 AM IST, today's batch hasn't opened yet → today + 59 days.
+ */
+export function latestBookableJourney(now: Date = new Date()): Date {
+  const istWallClock = new Date(now.getTime() + IST_OFFSET_MINUTES * 60 * 1000);
+  const releasedToday = istWallClock.getUTCHours() >= 8;
+  return addDays(todayIST(now), releasedToday ? ARP_DAYS : ARP_DAYS - 1);
+}
+
 export interface TatkalWindow {
   date: Date; // one day before the journey
   acTime: string;

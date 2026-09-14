@@ -1,5 +1,6 @@
 import Calculator from "@/components/Calculator";
 import RailScene from "@/components/RailScene";
+import TodayBooking from "@/components/TodayBooking";
 
 const faqs = [
   {
@@ -126,6 +127,7 @@ export default function HomePage() {
               <span className="tag">60 DAYS</span>
               Advance Reservation Period
             </p>
+            <TodayBooking />
             <h1 className="hero-title">
               Know the exact morning your{" "}
               <span className="grad">booking opens</span>.

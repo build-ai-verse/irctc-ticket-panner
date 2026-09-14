@@ -8,6 +8,7 @@ import {
   classifyJourney,
   planBooking,
   formatLongDate,
+  latestBookableJourney,
 } from "./booking-dates";
 
 // A fixed "now" whose IST calendar date is 2026-01-01.
@@ -141,6 +142,33 @@ describe("planBooking (end-to-end per matrix)", () => {
     const b = planBooking("2026-05-30", new Date("2026-01-01T04:00:00Z"));
     expect(toISODate(a.bookingOpen!)).toBe(toISODate(b.bookingOpen!));
     expect(toISODate(a.bookingOpen!)).toBe("2026-03-31");
+  });
+});
+
+describe("latestBookableJourney (8:00 AM IST release)", () => {
+  it("before 8 AM IST → today + 59 (today's batch not open yet)", () => {
+    // 2026-01-01T02:00:00Z == 07:30 IST
+    expect(toISODate(latestBookableJourney(new Date("2026-01-01T02:00:00Z")))).toBe(
+      "2026-03-01",
+    );
+  });
+  it("one minute before 8 AM IST → still today + 59", () => {
+    // 2026-01-01T02:29:00Z == 07:59 IST
+    expect(toISODate(latestBookableJourney(new Date("2026-01-01T02:29:00Z")))).toBe(
+      "2026-03-01",
+    );
+  });
+  it("exactly 8:00 AM IST → today + 60", () => {
+    // 2026-01-01T02:30:00Z == 08:00 IST
+    expect(toISODate(latestBookableJourney(new Date("2026-01-01T02:30:00Z")))).toBe(
+      "2026-03-02",
+    );
+  });
+  it("after 8 AM IST → today + 60", () => {
+    // 2026-01-01T05:00:00Z == 10:30 IST
+    expect(toISODate(latestBookableJourney(new Date("2026-01-01T05:00:00Z")))).toBe(
+      "2026-03-02",
+    );
   });
 });
 
